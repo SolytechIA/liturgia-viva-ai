@@ -1,8 +1,9 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import { Home, Cross, BookOpen, Star, LogOut } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 const items = [
   { to: "/dashboard", label: "Início", icon: Home, end: true },
@@ -13,8 +14,20 @@ const items = [
 
 export const PrivateLayout = () => {
   const navigate = useNavigate();
+  const { user, loading, signOut } = useAuth();
 
-  const logout = () => {
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-surface">
+        <div className="text-muted-foreground">Carregando...</div>
+      </div>
+    );
+  }
+
+  if (!user) return <Navigate to="/login" replace />;
+
+  const logout = async () => {
+    await signOut();
     toast.success("Você saiu. Até breve!");
     navigate("/");
   };

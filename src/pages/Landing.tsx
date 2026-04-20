@@ -41,7 +41,7 @@ const Landing = () => {
 
           <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row animate-fade-up">
             <Button asChild size="xl" variant="gold">
-              <Link to="/assinar">
+              <Link to="/cadastro">
                 Começar minha jornada <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
@@ -136,7 +136,7 @@ const Landing = () => {
             </p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Button asChild size="xl" variant="gold">
-                <Link to="/assinar">Começar gratuitamente <ArrowRight className="h-4 w-4" /></Link>
+                <Link to="/cadastro">Começar gratuitamente <ArrowRight className="h-4 w-4" /></Link>
               </Button>
               <Button asChild size="xl" variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-gold">
                 <Link to="/login">Já tenho conta</Link>
