@@ -63,7 +63,7 @@ const AdminUsuarios = () => {
       return;
     }
     setSavingId(p.id);
-    const update: Record<string, string> = {};
+    const update: { plano?: string; status_assinatura?: string } = {};
     if (e.plano !== undefined) update.plano = e.plano;
     if (e.status_assinatura !== undefined) update.status_assinatura = e.status_assinatura;
     const { error: upErr } = await supabase
