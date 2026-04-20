@@ -75,7 +75,9 @@ const Dashboard = () => {
       });
   }, [user]);
 
-  const plano = profile?.plano || "gratuito";
+  const PLANOS_VALIDOS = ["gratuito", "devoto", "peregrino"];
+  const planoRaw = profile?.plano || "gratuito";
+  const plano = PLANOS_VALIDOS.includes(planoRaw) ? planoRaw : "gratuito";
   const isGratuito = plano === "gratuito";
   const isPeregrino = plano === "peregrino";
   const isPaid = !isGratuito;
@@ -84,8 +86,22 @@ const Dashboard = () => {
   const diasDesdeCadastro = profile
     ? Math.floor((Date.now() - new Date(profile.data_cadastro).getTime()) / 86_400_000)
     : 0;
+  const diasTrialRestantes = isGratuito ? Math.max(0, 7 - diasDesdeCadastro) : null;
   const trialAtivo = isGratuito && diasDesdeCadastro < 7;
+  const trialExpirado = isGratuito && diasTrialRestantes !== null && diasTrialRestantes === 0;
   const podeVerReflexao = !isGratuito || trialAtivo;
+
+  // Bloqueia automaticamente o canal quando o trial expira
+  useEffect(() => {
+    if (!user || !profile) return;
+    if (trialExpirado && profile.canal_entrega !== "bloqueado") {
+      supabase
+        .from("profiles")
+        .update({ canal_entrega: "bloqueado" })
+        .eq("id", user.id)
+        .then(() => setCanal("bloqueado"));
+    }
+  }, [trialExpirado, user, profile]);
 
   const firstName = (profile?.nome || "").split(" ")[0] || "irmão(ã)";
 
