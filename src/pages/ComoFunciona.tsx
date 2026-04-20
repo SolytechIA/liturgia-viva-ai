@@ -4,10 +4,26 @@ import { Card } from "@/components/ui/card";
 import { UserPlus, Settings2, Mail, BookMarked, ArrowRight } from "lucide-react";
 
 const steps = [
-  { icon: UserPlus, title: "1. Cadastre-se", text: "Crie sua conta em menos de um minuto, gratuitamente, e teste por 7 dias." },
-  { icon: Settings2, title: "2. Personalize", text: "Escolha o canal (e-mail ou WhatsApp) e o horário ideal para receber a leitura." },
-  { icon: Mail, title: "3. Receba diariamente", text: "Toda manhã, a liturgia do dia chega com primeira leitura, salmo, evangelho e reflexão." },
-  { icon: BookMarked, title: "4. Reze e guarde", text: "Acesse o arquivo completo no seu painel e revisite passagens marcantes." },
+  {
+    icon: UserPlus,
+    title: "1. Cadastre-se",
+    text: "Crie sua conta em menos de um minuto, gratuitamente, e teste por 7 dias.",
+  },
+  {
+    icon: Settings2,
+    title: "2. Personalize",
+    text: "Escolha o canal (e-mail, Telegram ou WhatsApp) e o horário ideal para receber a leitura.",
+  },
+  {
+    icon: Mail,
+    title: "3. Receba diariamente",
+    text: "A liturgia do dia chega com primeira leitura, salmo, evangelho e reflexão.",
+  },
+  {
+    icon: BookMarked,
+    title: "4. Reze e guarde",
+    text: "Acesse o arquivo completo no seu painel e revisite passagens marcantes.",
+  },
 ];
 
 const ComoFunciona = () => (
@@ -17,8 +33,7 @@ const ComoFunciona = () => (
         <p className="mb-3 text-xs uppercase tracking-[0.22em] text-gold-deep">Como funciona</p>
         <h1 className="font-serif text-5xl text-primary md:text-6xl">Sua rotina espiritual, sem esforço</h1>
         <p className="mt-5 text-lg text-muted-foreground">
-          Liturgia Viva foi pensado para integrar a Palavra no seu cotidiano de
-          forma simples, bonita e profunda.
+          Liturgia Viva foi pensado para integrar a Palavra no seu cotidiano de forma simples, bonita e profunda.
         </p>
       </div>
     </section>
@@ -65,7 +80,9 @@ const ComoFunciona = () => (
           Junte-se a milhares de fiéis que começam o dia com a Palavra.
         </p>
         <Button asChild size="xl" variant="gold" className="mt-8">
-          <Link to="/assinar">Assinar agora <ArrowRight className="h-4 w-4" /></Link>
+          <Link to="/assinar">
+            Assinar agora <ArrowRight className="h-4 w-4" />
+          </Link>
         </Button>
       </div>
     </section>

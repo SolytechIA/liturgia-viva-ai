@@ -9,9 +9,7 @@ const MeuPlano = () => (
   <div className="container max-w-4xl py-8 md:py-12">
     <header className="mb-8 animate-fade-up">
       <h1 className="font-serif text-4xl text-primary md:text-5xl">Meu Plano</h1>
-      <p className="mt-2 text-muted-foreground">
-        Gerencie sua assinatura e preferências de envio.
-      </p>
+      <p className="mt-2 text-muted-foreground">Gerencie sua assinatura e preferências de envio.</p>
     </header>
 
     {/* Plano atual */}
@@ -21,12 +19,16 @@ const MeuPlano = () => (
           <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-gold/20 px-3 py-1 text-xs uppercase tracking-wider text-gold">
             <Star className="h-3 w-3 fill-current" /> Plano Peregrino
           </div>
-          <h2 className="font-serif text-3xl">R$ 14,90 <span className="text-base text-primary-foreground/70">/mês</span></h2>
+          <h2 className="font-serif text-3xl">
+            R$ 14,90 <span className="text-base text-primary-foreground/70">/mês</span>
+          </h2>
           <p className="mt-2 text-sm text-primary-foreground/75">Próxima cobrança em 15 de novembro</p>
         </div>
         <div className="flex gap-2">
           <Button variant="gold-outline">Trocar plano</Button>
-          <Button variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">Cancelar</Button>
+          <Button variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10">
+            Cancelar
+          </Button>
         </div>
       </div>
     </Card>
@@ -62,7 +64,9 @@ const MeuPlano = () => (
           <div className="flex items-start gap-3">
             <Clock className="mt-0.5 h-5 w-5 text-gold-deep" />
             <div>
-              <Label htmlFor="time" className="text-base">Horário de envio</Label>
+              <Label htmlFor="time" className="text-base">
+                Horário de envio
+              </Label>
               <p className="text-sm text-muted-foreground">Quando você quer receber a leitura</p>
             </div>
           </div>
@@ -70,7 +74,9 @@ const MeuPlano = () => (
         </div>
       </div>
 
-      <Button variant="gold" className="mt-8">Salvar preferências</Button>
+      <Button variant="gold" className="mt-8">
+        Salvar preferências
+      </Button>
     </Card>
 
     {/* Conta */}
@@ -86,7 +92,9 @@ const MeuPlano = () => (
           <Input id="email" type="email" defaultValue="maria@exemplo.com" className="mt-1.5" />
         </div>
       </div>
-      <Button variant="outline" className="mt-6">Atualizar dados</Button>
+      <Button variant="outline" className="mt-6">
+        Atualizar dados
+      </Button>
     </Card>
   </div>
 );
