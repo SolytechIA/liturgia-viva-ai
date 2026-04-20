@@ -386,6 +386,16 @@ const MeuPlano = () => {
               className="mt-1.5"
             />
           </div>
+          <div>
+            <Label htmlFor="telegram">Usuário do Telegram</Label>
+            <Input
+              id="telegram"
+              value={telegram}
+              onChange={(e) => setTelegram(e.target.value)}
+              placeholder="@seu_usuario"
+              className="mt-1.5"
+            />
+          </div>
         </div>
         <Button
           variant="outline"
@@ -396,7 +406,8 @@ const MeuPlano = () => {
           {savingDados ? "Atualizando..." : "Atualizar dados"}
         </Button>
       </Card>
-    </div>
+      </div>
+    </>
   );
 };
 
