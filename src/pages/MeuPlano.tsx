@@ -127,7 +127,11 @@ const MeuPlano = () => {
     setSavingDados(true);
     const { error } = await supabase
       .from("profiles")
-      .update({ nome })
+      .update({
+        nome,
+        whatsapp: whatsapp || null,
+        telegram_username: telegram || null,
+      })
       .eq("id", user.id);
     setSavingDados(false);
     if (error) {
