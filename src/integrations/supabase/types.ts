@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leituras: {
+        Row: {
+          cor_liturgica: string | null
+          created_at: string
+          data: string
+          explicacao_ia: string | null
+          id: string
+          referencia: string | null
+          reflexao_ia: string | null
+          tempo_liturgico: string | null
+          texto_passagem: string | null
+        }
+        Insert: {
+          cor_liturgica?: string | null
+          created_at?: string
+          data: string
+          explicacao_ia?: string | null
+          id?: string
+          referencia?: string | null
+          reflexao_ia?: string | null
+          tempo_liturgico?: string | null
+          texto_passagem?: string | null
+        }
+        Update: {
+          cor_liturgica?: string | null
+          created_at?: string
+          data?: string
+          explicacao_ia?: string | null
+          id?: string
+          referencia?: string | null
+          reflexao_ia?: string | null
+          tempo_liturgico?: string | null
+          texto_passagem?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          canal_entrega: string
+          data_cadastro: string
+          data_proxima_cobranca: string | null
+          horario_envio: string
+          id: string
+          nome: string | null
+          plano: string
+          status_assinatura: string
+          telegram_username: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          canal_entrega?: string
+          data_cadastro?: string
+          data_proxima_cobranca?: string | null
+          horario_envio?: string
+          id: string
+          nome?: string | null
+          plano?: string
+          status_assinatura?: string
+          telegram_username?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          canal_entrega?: string
+          data_cadastro?: string
+          data_proxima_cobranca?: string | null
+          horario_envio?: string
+          id?: string
+          nome?: string | null
+          plano?: string
+          status_assinatura?: string
+          telegram_username?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
