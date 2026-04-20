@@ -259,12 +259,21 @@ const MeuPlano = () => {
                 <p className="text-sm text-muted-foreground">
                   Receba a liturgia no seu e-mail
                 </p>
+                {trialExpirado && (
+                  <p className="mt-1 text-sm text-destructive">
+                    Seu período de teste encerrou.{" "}
+                    <Link to="/assinar" className="font-medium underline">
+                      Faça upgrade
+                    </Link>{" "}
+                    para continuar recebendo no e-mail.
+                  </p>
+                )}
               </div>
             </div>
             <Switch
-              checked={canalEmail}
+              checked={canalEmail && !trialExpirado}
               onCheckedChange={setCanalEmail}
-              disabled={isGratuito}
+              disabled={isGratuito || trialExpirado}
             />
           </div>
 
