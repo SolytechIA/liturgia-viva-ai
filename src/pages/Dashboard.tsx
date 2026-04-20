@@ -52,7 +52,7 @@ const Dashboard = () => {
   const [saving, setSaving] = useState(false);
 
   // form state
-  const [horario, setHorario] = useState("manha-6");
+  const [horario, setHorario] = useState("8h");
   const [canal, setCanal] = useState("email");
   const [telegram, setTelegram] = useState("");
   const [whatsapp, setWhatsapp] = useState("");
@@ -67,7 +67,7 @@ const Dashboard = () => {
       .then(({ data }) => {
         if (data) {
           setProfile(data);
-          setHorario(data.horario_envio || "manha-6");
+          setHorario(data.horario_envio || "8h");
           setCanal(data.canal_entrega || "email");
           setTelegram(data.telegram_username || "");
           setWhatsapp(data.whatsapp || "");
@@ -190,19 +190,11 @@ const Dashboard = () => {
         <div className={cn("space-y-6", isGratuito && "pointer-events-none select-none opacity-40 blur-[2px]")}>
           <div>
             <Label className="mb-3 block">Horário de envio</Label>
-            <RadioGroup value={horario} onValueChange={setHorario} className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[
-                { v: "manha-6", l: "Manhã", sub: "6h" },
-                { v: "manha-8", l: "Manhã", sub: "8h" },
-                { v: "tarde-12", l: "Tarde", sub: "12h" },
-                { v: "tarde-18", l: "Tarde", sub: "18h" },
-              ].map((h) => (
-                <label key={h.v} className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 hover:border-gold">
-                  <RadioGroupItem value={h.v} id={`h-${h.v}`} />
-                  <div>
-                    <div className="text-sm font-medium">{h.l}</div>
-                    <div className="text-xs text-muted-foreground">{h.sub}</div>
-                  </div>
+            <RadioGroup value={horario} onValueChange={setHorario} className="grid grid-cols-3 gap-3 md:grid-cols-5">
+              {["6h","8h","10h","12h","14h","16h","18h","20h","22h"].map((h) => (
+                <label key={h} className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-border p-3 hover:border-gold">
+                  <RadioGroupItem value={h} id={`h-${h}`} />
+                  <span className="text-sm font-medium">{h}</span>
                 </label>
               ))}
             </RadioGroup>
