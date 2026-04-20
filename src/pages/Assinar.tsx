@@ -6,45 +6,49 @@ import { cn } from "@/lib/utils";
 
 const plans = [
   {
-    name: "Devoto",
-    price: "Grátis",
+    name: "Gratuito",
+    price: "R$ 0",
     period: "para sempre",
-    desc: "Para quem quer começar a caminhada.",
+    desc: "Para começar a caminhada com a Palavra.",
     features: [
-      "Leitura do Evangelho diário",
-      "Envio por e-mail",
+      "Leitura do Evangelho do dia (sempre)",
+      "Reflexão com IA — apenas nos primeiros 7 dias",
+      "Entrega por e-mail — apenas nos primeiros 7 dias",
       "Acesso ao arquivo dos últimos 7 dias",
     ],
     cta: "Começar grátis",
+    href: "/cadastro",
     variant: "outline" as const,
   },
   {
-    name: "Peregrino",
-    price: "R$ 14,90",
+    name: "Devoto",
+    price: "R$ 19,90",
     period: "/mês",
-    desc: "A experiência completa, sem limites.",
+    priceAlt: "ou R$ 189/ano (economize 20%)",
+    desc: "A experiência completa, todos os dias.",
     features: [
       "Liturgia completa todos os dias",
       "Reflexão e comentário com IA",
-      "Envio por e-mail e WhatsApp",
+      "Envio por e-mail e Telegram",
       "Arquivo histórico ilimitado",
       "Horário personalizado de envio",
     ],
-    cta: "Assinar Peregrino",
+    cta: "Assinar agora",
     variant: "gold" as const,
     highlight: true,
   },
   {
-    name: "Anual",
-    price: "R$ 149",
-    period: "/ano",
-    desc: "Equivale a R$ 12,40/mês. Economize 17%.",
+    name: "Peregrino",
+    price: "R$ 39,90",
+    period: "/mês",
+    priceAlt: "ou R$ 379/ano (economize 20%)",
+    desc: "Para quem quer a Palavra também no WhatsApp.",
     features: [
-      "Tudo do plano Peregrino",
-      "2 meses grátis",
+      "Tudo do plano Devoto",
+      "Envio por WhatsApp",
       "Suporte prioritário",
     ],
-    cta: "Assinar anual",
+    cta: "Assinar agora",
     variant: "outline" as const,
   },
 ];
@@ -85,6 +89,9 @@ const Assinar = () => (
               <span className="font-serif text-4xl">{p.price}</span>
               <span className={cn("text-sm", p.highlight ? "text-primary-foreground/70" : "text-muted-foreground")}>{p.period}</span>
             </div>
+            {p.priceAlt && (
+              <p className={cn("mt-1 text-xs", p.highlight ? "text-gold" : "text-gold-deep")}>{p.priceAlt}</p>
+            )}
             <ul className="mt-6 flex-1 space-y-3">
               {p.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm">
@@ -93,16 +100,22 @@ const Assinar = () => (
                 </li>
               ))}
             </ul>
-            <Button asChild variant={p.variant} size="lg" className="mt-8">
-              <Link to="/cadastro">{p.cta}</Link>
-            </Button>
+            {p.href ? (
+              <Button asChild variant={p.variant} size="lg" className="mt-8">
+                <Link to={p.href}>{p.cta}</Link>
+              </Button>
+            ) : (
+              <Button variant={p.variant} size="lg" className="mt-8">
+                {p.cta}
+              </Button>
+            )}
           </Card>
         ))}
       </div>
 
       <p className="mx-auto mt-10 max-w-xl text-center text-xs text-muted-foreground">
-        Pagamento seguro. Cancele quando quiser. Esta é uma página demonstrativa —
-        o checkout real será habilitado em breve.
+        Pagamento seguro. Cancele quando quiser. O checkout dos planos pagos
+        será habilitado em breve.
       </p>
     </section>
   </div>

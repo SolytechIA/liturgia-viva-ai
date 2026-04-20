@@ -36,7 +36,7 @@ const Landing = () => {
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-primary-foreground/85 md:text-xl animate-fade-up">
             Receba todos os dias as leituras da Bíblia Católica do calendário
             litúrgico oficial, acompanhadas de reflexões inspiradoras — direto
-            no seu e-mail e WhatsApp.
+            no seu e-mail, Telegram e WhatsApp.
           </p>
 
           <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row animate-fade-up">
@@ -74,7 +74,7 @@ const Landing = () => {
             {[
               { icon: BookOpen, title: "Leituras oficiais", text: "Primeira leitura, salmo responsorial, segunda leitura e Evangelho do dia, conforme o calendário da CNBB." },
               { icon: Sparkles, title: "Reflexões inteligentes", text: "Comentários e meditações geradas com IA cuidadosa, para iluminar o sentido espiritual de cada passagem." },
-              { icon: Mail, title: "Entrega diária", text: "No seu e-mail e WhatsApp, no horário que você preferir. Sem barulho, só Palavra." },
+              { icon: Mail, title: "Entrega diária", text: "No seu e-mail, Telegram e WhatsApp, no horário que você preferir. Sem barulho, só Palavra." },
             ].map((b) => (
               <Card key={b.title} className="border-gold/20 bg-card p-8 shadow-card transition-smooth hover:-translate-y-1 hover:shadow-elegant">
                 <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md bg-gold/10 text-gold-deep">
