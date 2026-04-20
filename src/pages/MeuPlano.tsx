@@ -70,7 +70,10 @@ const MeuPlano = () => {
       }
 
       if (data) {
-        const planoAtual = (data.plano as Plano) || "gratuito";
+        const PLANOS_VALIDOS: Plano[] = ["gratuito", "devoto", "peregrino"];
+        const planoAtual: Plano = PLANOS_VALIDOS.includes(data.plano as Plano)
+          ? (data.plano as Plano)
+          : "gratuito";
         setPlano(planoAtual);
         setNome(data.nome || "");
         setWhatsapp(data.whatsapp || "");
@@ -79,8 +82,9 @@ const MeuPlano = () => {
         setDataCadastro(data.data_cadastro);
         setDataProximaCobranca(data.data_proxima_cobranca);
 
-        const canais = (data.canal_entrega || "email").split(",").map((c) => c.trim());
-        setCanalEmail(canais.includes("email"));
+        const canalRaw = data.canal_entrega || "email";
+        const canais = canalRaw.split(",").map((c) => c.trim());
+        setCanalEmail(canalRaw !== "bloqueado" && canais.includes("email"));
         setCanalTelegram(canais.includes("telegram") && planoAtual !== "gratuito");
         setCanalWhatsapp(canais.includes("whatsapp") && planoAtual === "peregrino");
       }
