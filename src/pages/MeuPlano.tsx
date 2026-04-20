@@ -70,7 +70,10 @@ const MeuPlano = () => {
       }
 
       if (data) {
-        const planoAtual = (data.plano as Plano) || "gratuito";
+        const PLANOS_VALIDOS: Plano[] = ["gratuito", "devoto", "peregrino"];
+        const planoAtual: Plano = PLANOS_VALIDOS.includes(data.plano as Plano)
+          ? (data.plano as Plano)
+          : "gratuito";
         setPlano(planoAtual);
         setNome(data.nome || "");
         setWhatsapp(data.whatsapp || "");
@@ -79,8 +82,9 @@ const MeuPlano = () => {
         setDataCadastro(data.data_cadastro);
         setDataProximaCobranca(data.data_proxima_cobranca);
 
-        const canais = (data.canal_entrega || "email").split(",").map((c) => c.trim());
-        setCanalEmail(canais.includes("email"));
+        const canalRaw = data.canal_entrega || "email";
+        const canais = canalRaw.split(",").map((c) => c.trim());
+        setCanalEmail(canalRaw !== "bloqueado" && canais.includes("email"));
         setCanalTelegram(canais.includes("telegram") && planoAtual !== "gratuito");
         setCanalWhatsapp(canais.includes("whatsapp") && planoAtual === "peregrino");
       }
@@ -95,6 +99,20 @@ const MeuPlano = () => {
     const dias = Math.floor((Date.now() - cadastro) / (1000 * 60 * 60 * 24));
     return Math.max(0, 7 - dias);
   })();
+
+  const trialExpirado =
+    plano === "gratuito" && diasTrialRestantes !== null && diasTrialRestantes === 0;
+
+  // Auto-bloqueia canal_entrega quando o trial expira
+  useEffect(() => {
+    if (!user || !trialExpirado) return;
+    setCanalEmail(false);
+    supabase
+      .from("profiles")
+      .update({ canal_entrega: "bloqueado" })
+      .eq("id", user.id)
+      .then(() => {});
+  }, [trialExpirado, user]);
 
   const salvarPreferencias = async () => {
     if (!user) return;
@@ -241,12 +259,21 @@ const MeuPlano = () => {
                 <p className="text-sm text-muted-foreground">
                   Receba a liturgia no seu e-mail
                 </p>
+                {trialExpirado && (
+                  <p className="mt-1 text-sm text-destructive">
+                    Seu período de teste encerrou.{" "}
+                    <Link to="/assinar" className="font-medium underline">
+                      Faça upgrade
+                    </Link>{" "}
+                    para continuar recebendo no e-mail.
+                  </p>
+                )}
               </div>
             </div>
             <Switch
-              checked={canalEmail}
+              checked={canalEmail && !trialExpirado}
               onCheckedChange={setCanalEmail}
-              disabled={isGratuito}
+              disabled={isGratuito || trialExpirado}
             />
           </div>
 
