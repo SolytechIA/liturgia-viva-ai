@@ -154,13 +154,12 @@ const Dashboard = () => {
           </div>
 
           {/* Reflexão IA */}
-          <div className="mt-6">
-            <div className="mb-2 flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-gold" />
-              <h3 className="font-serif text-lg text-gold">Reflexão com IA</h3>
-            </div>
-
-            {podeVerReflexao ? (
+          {podeVerReflexao ? (
+            <div className="mt-6">
+              <div className="mb-2 flex items-center gap-2">
+                <Sparkles className="h-4 w-4 text-gold" />
+                <h3 className="font-serif text-lg text-gold">Reflexão com IA</h3>
+              </div>
               <p className="text-sm leading-relaxed text-primary-foreground/85">
                 Maria intercede com delicadeza, e Jesus revela sua glória. O
                 primeiro sinal acontece numa festa, lembrando que a presença
@@ -171,20 +170,22 @@ const Dashboard = () => {
                   </span>
                 )}
               </p>
-            ) : (
-              <div className="rounded-md border border-gold/30 bg-background/10 p-5 text-center">
-                <Lock className="mx-auto mb-2 h-6 w-6 text-gold" />
-                <p className="text-sm text-primary-foreground/90">
-                  Faça upgrade para continuar recebendo reflexões com IA ✨
-                </p>
-                <Button asChild variant="gold" size="sm" className="mt-4">
-                  <Link to="/assinar">
-                    Ver planos <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </Button>
-              </div>
-            )}
-          </div>
+            </div>
+          ) : (
+            <div className="mt-6 rounded-md border border-gold/30 bg-background/10 p-5 text-center">
+              <Lock className="mx-auto mb-2 h-6 w-6 text-gold" />
+              <p className="text-sm text-primary-foreground/90">
+                {trialExpirado
+                  ? "Seu período de teste encerrou. Faça upgrade para continuar recebendo reflexões com IA."
+                  : "Faça upgrade para continuar recebendo reflexões com IA ✨"}
+              </p>
+              <Button asChild variant="gold" size="sm" className="mt-4">
+                <Link to="/assinar">
+                  Ver planos <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
+          )}
 
           <Button asChild variant="gold-outline" size="lg" className="mt-6">
             <Link to="/dashboard/leitura">
