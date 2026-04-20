@@ -12,17 +12,47 @@ interface AuthFormProps {
   mode: "login" | "signup";
 }
 
+const formatWhatsApp = (v: string) => {
+  const digits = v.replace(/\D/g, "").slice(0, 13);
+  if (!digits) return "";
+  let out = "+55 ";
+  const rest = digits.startsWith("55") ? digits.slice(2) : digits;
+  if (rest.length <= 2) out += `(${rest}`;
+  else if (rest.length <= 7) out += `(${rest.slice(0, 2)}) ${rest.slice(2)}`;
+  else out += `(${rest.slice(0, 2)}) ${rest.slice(2, 7)}-${rest.slice(7, 11)}`;
+  return out;
+};
+
 export const AuthForm = ({ mode }: AuthFormProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [resetMode, setResetMode] = useState(false);
 
   const isSignup = mode === "signup";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isSignup && !resetMode) {
+      if (!nome.trim()) {
+        toast.error("Por favor, informe seu nome completo.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast.error("As senhas não coincidem.");
+        return;
+      }
+      if (password.length < 6) {
+        toast.error("A senha deve ter no mínimo 6 caracteres.");
+        return;
+      }
+    }
+
     setLoading(true);
 
     try {
@@ -34,12 +64,27 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
         toast.success("Enviamos um link de recuperação para seu e-mail.");
         setResetMode(false);
       } else if (isSignup) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: `${window.location.origin}/bem-vindo` },
+          options: {
+            emailRedirectTo: `${window.location.origin}/bem-vindo`,
+            data: { nome: nome.trim() },
+          },
         });
         if (error) throw error;
+
+        // Atualiza o perfil já com nome e WhatsApp
+        if (data.user) {
+          await supabase
+            .from("profiles")
+            .update({
+              nome: nome.trim(),
+              whatsapp: whatsapp || null,
+            })
+            .eq("id", data.user.id);
+        }
+
         toast.success("Conta criada! Vamos personalizar sua jornada.");
         navigate("/bem-vindo");
       } else {
@@ -78,6 +123,21 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            {isSignup && !resetMode && (
+              <div>
+                <Label htmlFor="nome">Nome completo</Label>
+                <Input
+                  id="nome"
+                  placeholder="Seu nome"
+                  required
+                  maxLength={100}
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  className="mt-1.5"
+                />
+              </div>
+            )}
+
             <div>
               <Label htmlFor="email">E-mail</Label>
               <Input
@@ -90,6 +150,22 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
                 className="mt-1.5"
               />
             </div>
+
+            {isSignup && !resetMode && (
+              <div>
+                <Label htmlFor="whatsapp">
+                  WhatsApp <span className="text-muted-foreground">(opcional, recomendado)</span>
+                </Label>
+                <Input
+                  id="whatsapp"
+                  placeholder="+55 (11) 99999-9999"
+                  value={whatsapp}
+                  onChange={(e) => setWhatsapp(formatWhatsApp(e.target.value))}
+                  className="mt-1.5"
+                />
+              </div>
+            )}
+
             {!resetMode && (
               <div>
                 <Label htmlFor="password">Senha</Label>
@@ -101,6 +177,22 @@ export const AuthForm = ({ mode }: AuthFormProps) => {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  className="mt-1.5"
+                />
+              </div>
+            )}
+
+            {isSignup && !resetMode && (
+              <div>
+                <Label htmlFor="confirm-password">Confirmar senha</Label>
+                <Input
+                  id="confirm-password"
+                  type="password"
+                  placeholder="••••••••"
+                  required
+                  minLength={6}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   className="mt-1.5"
                 />
               </div>
