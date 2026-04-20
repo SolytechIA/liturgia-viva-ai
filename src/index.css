@@ -1,105 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Liturgia Viva — design system
+   Dourado #C9A84C, Azul-marinho #1A2B4A, branco e cinza claro #F5F5F0
+   Todas as cores em HSL.
 */
 
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 218 47% 19%;
+
+    --surface: 51 33% 95%; /* #F5F5F0 */
+    --surface-foreground: 218 47% 19%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 47% 19%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 218 47% 19%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Azul-marinho profundo */
+    --primary: 218 47% 19%;
+    --primary-foreground: 51 33% 96%;
+    --primary-glow: 218 45% 28%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Dourado */
+    --gold: 43 53% 54%;
+    --gold-foreground: 218 47% 19%;
+    --gold-soft: 43 53% 88%;
+    --gold-deep: 38 55% 40%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 51 33% 95%;
+    --secondary-foreground: 218 47% 19%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 51 20% 93%;
+    --muted-foreground: 218 15% 38%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --accent: 43 53% 54%;
+    --accent-foreground: 218 47% 19%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    --border: 218 18% 88%;
+    --input: 218 18% 88%;
+    --ring: 43 53% 54%;
 
-    --sidebar-background: 0 0% 98%;
+    --radius: 0.625rem;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(218 47% 19% / 0.92), hsl(218 50% 12% / 0.85));
+    --gradient-gold: linear-gradient(135deg, hsl(43 60% 60%), hsl(38 55% 42%));
+    --gradient-warm: linear-gradient(180deg, hsl(0 0% 100%), hsl(51 33% 96%));
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Shadows */
+    --shadow-elegant: 0 20px 50px -25px hsl(218 47% 19% / 0.35);
+    --shadow-gold: 0 10px 30px -12px hsl(43 53% 54% / 0.45);
+    --shadow-card: 0 2px 12px -4px hsl(218 47% 19% / 0.08);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar (privado) */
+    --sidebar-background: 218 47% 19%;
+    --sidebar-foreground: 51 33% 92%;
+    --sidebar-primary: 43 53% 54%;
+    --sidebar-primary-foreground: 218 47% 19%;
+    --sidebar-accent: 218 45% 25%;
+    --sidebar-accent-foreground: 43 53% 70%;
+    --sidebar-border: 218 40% 28%;
+    --sidebar-ring: 43 53% 54%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: 218 47% 10%;
+    --foreground: 51 33% 95%;
+    --card: 218 47% 13%;
+    --card-foreground: 51 33% 95%;
+    --primary: 43 53% 54%;
+    --primary-foreground: 218 47% 12%;
+    --muted: 218 30% 18%;
+    --muted-foreground: 51 15% 70%;
+    --border: 218 30% 22%;
+    --input: 218 30% 22%;
+    --ring: 43 53% 54%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
+  * { @apply border-border; }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
   }
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+  .scripture {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-hero { background-image: var(--gradient-hero); }
+  .bg-gradient-gold { background-image: var(--gradient-gold); }
+  .bg-gradient-warm { background-image: var(--gradient-warm); }
+  .shadow-elegant { box-shadow: var(--shadow-elegant); }
+  .shadow-gold { box-shadow: var(--shadow-gold); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .transition-smooth { transition: var(--transition-smooth); }
+  .text-gold { color: hsl(var(--gold)); }
+  .bg-gold { background-color: hsl(var(--gold)); }
+  .border-gold { border-color: hsl(var(--gold)); }
 }
