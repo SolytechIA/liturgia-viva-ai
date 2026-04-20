@@ -19,6 +19,10 @@ import Dashboard from "./pages/Dashboard";
 import LeituraDoDia from "./pages/LeituraDoDia";
 import Arquivo from "./pages/Arquivo";
 import MeuPlano from "./pages/MeuPlano";
+import { AdminLayout } from "./components/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsuarios from "./pages/admin/AdminUsuarios";
+import AdminFinanceiro from "./pages/admin/AdminFinanceiro";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -51,6 +55,13 @@ const App = () => (
               <Route path="/dashboard/leitura" element={<LeituraDoDia />} />
               <Route path="/dashboard/arquivo" element={<Arquivo />} />
               <Route path="/dashboard/plano" element={<MeuPlano />} />
+            </Route>
+
+            {/* Admin (acesso restrito por is_admin) */}
+            <Route element={<AdminLayout />}>
+              <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+              <Route path="/admin/financeiro" element={<AdminFinanceiro />} />
             </Route>
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
