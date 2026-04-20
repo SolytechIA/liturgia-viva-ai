@@ -46,8 +46,8 @@ const Sobre = () => (
             <p className="mb-3 text-sm text-muted-foreground">
               Para dúvidas, sugestões ou pedidos de oração.
             </p>
-            <a href="mailto:contato@liturgiaviva.com.br" className="font-medium text-gold-deep hover:underline">
-              contato@liturgiaviva.com.br
+            <a href="mailto:contato.liturgiaviva@gmail.com" className="font-medium text-gold-deep hover:underline">
+              contato.liturgiaviva@gmail.com
             </a>
           </Card>
           <Card className="border-gold/20 p-8 shadow-card">

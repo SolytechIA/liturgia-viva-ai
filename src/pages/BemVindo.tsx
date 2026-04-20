@@ -32,7 +32,23 @@ const BemVindo = () => {
   const [telegram, setTelegram] = useState("");
 
   useEffect(() => {
-    if (!authLoading && !user) navigate("/login");
+    if (authLoading) return;
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    supabase
+      .from("profiles")
+      .select("nome, horario_envio, canal_entrega, whatsapp, telegram_username")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.nome) setNome(data.nome);
+        if (data?.horario_envio) setHorario(data.horario_envio);
+        if (data?.canal_entrega) setCanal(data.canal_entrega);
+        if (data?.whatsapp) setWhatsapp(data.whatsapp);
+        if (data?.telegram_username) setTelegram(data.telegram_username);
+      });
   }, [authLoading, user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
