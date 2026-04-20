@@ -57,6 +57,7 @@ export type Database = {
           data_proxima_cobranca: string | null
           horario_envio: string
           id: string
+          is_admin: boolean
           nome: string | null
           plano: string
           status_assinatura: string
@@ -69,6 +70,7 @@ export type Database = {
           data_proxima_cobranca?: string | null
           horario_envio?: string
           id: string
+          is_admin?: boolean
           nome?: string | null
           plano?: string
           status_assinatura?: string
@@ -81,6 +83,7 @@ export type Database = {
           data_proxima_cobranca?: string | null
           horario_envio?: string
           id?: string
+          is_admin?: boolean
           nome?: string | null
           plano?: string
           status_assinatura?: string
@@ -94,7 +97,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
