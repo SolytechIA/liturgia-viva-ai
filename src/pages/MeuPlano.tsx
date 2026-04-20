@@ -155,13 +155,21 @@ const MeuPlano = () => {
   const isPeregrino = plano === "peregrino";
 
   return (
-    <div className="container max-w-4xl py-8 md:py-12">
-      <header className="mb-8 animate-fade-up">
-        <h1 className="font-serif text-4xl text-primary md:text-5xl">Meu Plano</h1>
-        <p className="mt-2 text-muted-foreground">
-          Gerencie sua assinatura e preferências de envio.
-        </p>
+    <>
+      <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/85 backdrop-blur-md">
+        <div className="container flex h-20 items-center">
+          <Link to="/" aria-label="Liturgia Viva — Início">
+            <Logo />
+          </Link>
+        </div>
       </header>
+      <div className="container max-w-4xl py-8 md:py-12">
+        <header className="mb-8 animate-fade-up">
+          <h1 className="font-serif text-4xl text-primary md:text-5xl">Meu Plano</h1>
+          <p className="mt-2 text-muted-foreground">
+            Gerencie sua assinatura e preferências de envio.
+          </p>
+        </header>
 
       {/* Plano atual */}
       <Card className="mb-6 border-gold bg-primary p-8 text-primary-foreground shadow-elegant">
