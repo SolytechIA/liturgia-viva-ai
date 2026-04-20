@@ -100,6 +100,20 @@ const MeuPlano = () => {
     return Math.max(0, 7 - dias);
   })();
 
+  const trialExpirado =
+    plano === "gratuito" && diasTrialRestantes !== null && diasTrialRestantes === 0;
+
+  // Auto-bloqueia canal_entrega quando o trial expira
+  useEffect(() => {
+    if (!user || !trialExpirado) return;
+    setCanalEmail(false);
+    supabase
+      .from("profiles")
+      .update({ canal_entrega: "bloqueado" })
+      .eq("id", user.id)
+      .then(() => {});
+  }, [trialExpirado, user]);
+
   const salvarPreferencias = async () => {
     if (!user) return;
     setSaving(true);
