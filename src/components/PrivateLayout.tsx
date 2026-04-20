@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate, Navigate, Link } from "react-router-dom";
 import { Home, Cross, BookOpen, Star, LogOut } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,9 @@ export const PrivateLayout = () => {
       {/* Sidebar */}
       <aside className="hidden w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground md:flex">
         <div className="border-b border-sidebar-border px-6 py-6">
-          <Logo variant="light" />
+          <Link to="/" aria-label="Liturgia Viva — Início">
+            <Logo variant="light" />
+          </Link>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-6">
