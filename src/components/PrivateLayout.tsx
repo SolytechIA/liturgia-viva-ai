@@ -77,7 +77,9 @@ export const PrivateLayout = () => {
       {/* Mobile top bar */}
       <div className="flex flex-1 flex-col">
         <header className="flex items-center justify-between border-b border-border bg-sidebar px-4 py-3 text-sidebar-foreground md:hidden">
-          <Logo variant="light" />
+          <Link to="/" aria-label="Liturgia Viva — Início">
+            <Logo variant="light" />
+          </Link>
           <button onClick={logout} className="rounded-md p-2 text-sidebar-foreground/80 hover:text-gold" aria-label="Sair">
             <LogOut className="h-5 w-5" />
           </button>
