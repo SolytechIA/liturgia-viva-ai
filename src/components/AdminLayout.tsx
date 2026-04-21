@@ -31,6 +31,7 @@ export const AdminLayout = () => {
         .select("is_admin")
         .eq("id", user.id)
         .maybeSingle();
+      console.log("Admin check:", { data, error, userId: user.id });
       if (error) {
         console.error(error);
         setIsAdmin(false);
