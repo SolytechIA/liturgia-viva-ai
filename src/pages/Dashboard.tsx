@@ -67,7 +67,8 @@ const Dashboard = () => {
       .then(({ data }) => {
         if (data) {
           setProfile(data);
-          setHorario(data.horario_envio || "8h");
+          const HORARIOS_VALIDOS = ["6h","8h","10h","12h","14h","16h","18h","20h","22h"];
+          setHorario(HORARIOS_VALIDOS.includes(data.horario_envio) ? data.horario_envio : "8h");
           setCanal(data.canal_entrega || "email");
           setTelegram(data.telegram_username || "");
           setWhatsapp(data.whatsapp || "");

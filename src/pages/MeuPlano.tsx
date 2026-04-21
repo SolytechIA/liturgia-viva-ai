@@ -122,15 +122,27 @@ const MeuPlano = () => {
     if (canalTelegram && plano !== "gratuito") canais.push("telegram");
     if (canalWhatsapp && plano === "peregrino") canais.push("whatsapp");
 
+    const update: Record<string, unknown> = {
+      canal_entrega: canais.join(",") || "email",
+      horario_envio: horario,
+      telegram_username: telegram || null,
+      whatsapp: whatsapp || null,
+    };
+
+    // Auto-preenche próxima cobrança para planos pagos ativos sem data definida
+    if ((plano === "devoto" || plano === "peregrino") && !dataProximaCobranca) {
+      const proxima = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      update.data_proxima_cobranca = proxima.toISOString().split("T")[0];
+    }
+
     const { error } = await supabase
       .from("profiles")
-      .update({
-        canal_entrega: canais.join(",") || "email",
-        horario_envio: horario,
-        telegram_username: telegram || null,
-        whatsapp: whatsapp || null,
-      })
+      .update(update)
       .eq("id", user.id);
+
+    if (!error && update.data_proxima_cobranca) {
+      setDataProximaCobranca(update.data_proxima_cobranca as string);
+    }
 
     setSaving(false);
     if (error) {
