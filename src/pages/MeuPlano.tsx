@@ -147,7 +147,7 @@ const MeuPlano = () => {
       .eq("id", user.id);
 
     if (!error && update.data_proxima_cobranca) {
-      setDataProximaCobranca(update.data_proxima_cobranca as string);
+      setDataProximaCobranca(update.data_proxima_cobranca);
     }
 
     setSaving(false);
