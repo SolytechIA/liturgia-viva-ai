@@ -29,7 +29,7 @@ const BemVindo = () => {
   const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [nome, setNome] = useState("");
-  const [horario, setHorario] = useState("manha");
+  const [horario, setHorario] = useState("8h");
   const [canal, setCanal] = useState("email");
   const [whatsapp, setWhatsapp] = useState("");
   const [telegram, setTelegram] = useState("");
