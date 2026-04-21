@@ -122,7 +122,13 @@ const MeuPlano = () => {
     if (canalTelegram && plano !== "gratuito") canais.push("telegram");
     if (canalWhatsapp && plano === "peregrino") canais.push("whatsapp");
 
-    const update: Record<string, unknown> = {
+    const update: {
+      canal_entrega: string;
+      horario_envio: string;
+      telegram_username: string | null;
+      whatsapp: string | null;
+      data_proxima_cobranca?: string;
+    } = {
       canal_entrega: canais.join(",") || "email",
       horario_envio: horario,
       telegram_username: telegram || null,
