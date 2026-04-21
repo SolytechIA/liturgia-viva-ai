@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { formatTodayLongBR } from "@/lib/dateUtils";
 
 type Profile = {
   nome: string | null;
@@ -39,12 +40,7 @@ const greeting = () => {
   return "Boa noite";
 };
 
-const todayLabel = new Date().toLocaleDateString("pt-BR", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+const todayLabel = formatTodayLongBR();
 
 const Dashboard = () => {
   const { user } = useAuth();

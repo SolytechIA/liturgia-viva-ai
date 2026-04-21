@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { formatDateBR } from "@/lib/dateUtils";
 
 const PLANOS = ["gratuito", "devoto", "peregrino"] as const;
 const STATUSES = ["ativo", "trial", "cancelado", "inadimplente"] as const;
@@ -28,8 +29,7 @@ const PAGE_SIZE = 10;
 
 type Edits = Record<string, { plano?: string; status_assinatura?: string }>;
 
-const formatDate = (s: string | null) =>
-  s ? new Date(s).toLocaleDateString("pt-BR") : "—";
+const formatDate = (s: string | null) => formatDateBR(s);
 
 const AdminUsuarios = () => {
   const { profiles, loading, error, refresh } = useAdminProfiles();
