@@ -177,7 +177,7 @@ const Dashboard = () => {
             </div>
           </div>
           <Button asChild variant="outline" size="sm">
-            <Link to="/dashboard/meu-plano">
+            <Link to="/dashboard/plano">
               <Settings className="h-4 w-4" /> Alterar preferências
             </Link>
           </Button>
