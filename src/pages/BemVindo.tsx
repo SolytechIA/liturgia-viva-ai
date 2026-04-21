@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Logo } from "@/components/Logo";
+
+const HORARIOS = ["6h", "8h", "10h", "12h", "14h", "16h", "18h", "20h", "22h"];
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -26,7 +29,7 @@ const BemVindo = () => {
   const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
   const [nome, setNome] = useState("");
-  const [horario, setHorario] = useState("manha");
+  const [horario, setHorario] = useState("8h");
   const [canal, setCanal] = useState("email");
   const [whatsapp, setWhatsapp] = useState("");
   const [telegram, setTelegram] = useState("");
@@ -44,7 +47,7 @@ const BemVindo = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (data?.nome) setNome(data.nome);
-        if (data?.horario_envio) setHorario(data.horario_envio);
+        if (data?.horario_envio && HORARIOS.includes(data.horario_envio)) setHorario(data.horario_envio);
         if (data?.canal_entrega) setCanal(data.canal_entrega);
         if (data?.whatsapp) setWhatsapp(data.whatsapp);
         if (data?.telegram_username) setTelegram(data.telegram_username);
@@ -107,23 +110,17 @@ const BemVindo = () => {
             </div>
 
             <div>
-              <Label className="mb-3 block">Horário preferido</Label>
-              <RadioGroup value={horario} onValueChange={setHorario} className="grid grid-cols-2 gap-3">
-                <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 hover:border-gold">
-                  <RadioGroupItem value="manha" id="h-manha" />
-                  <div>
-                    <div className="font-medium">Manhã</div>
-                    <div className="text-xs text-muted-foreground">6h às 8h</div>
-                  </div>
-                </label>
-                <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 hover:border-gold">
-                  <RadioGroupItem value="tarde" id="h-tarde" />
-                  <div>
-                    <div className="font-medium">Tarde</div>
-                    <div className="text-xs text-muted-foreground">12h</div>
-                  </div>
-                </label>
-              </RadioGroup>
+              <Label htmlFor="horario" className="mb-3 block">Horário preferido</Label>
+              <Select value={horario} onValueChange={setHorario}>
+                <SelectTrigger id="horario" className="mt-1.5">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {HORARIOS.map((h) => (
+                    <SelectItem key={h} value={h}>{h}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div>
@@ -141,6 +138,11 @@ const BemVindo = () => {
                   </label>
                 ))}
               </RadioGroup>
+              {(canal === "whatsapp" || canal === "telegram" || canal === "todos") && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Disponível conforme seu plano. Configure em Meu Plano após o cadastro.
+                </p>
+              )}
             </div>
 
             <div>
