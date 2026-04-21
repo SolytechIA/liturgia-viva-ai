@@ -47,7 +47,7 @@ const BemVindo = () => {
       .maybeSingle()
       .then(({ data }) => {
         if (data?.nome) setNome(data.nome);
-        if (data?.horario_envio) setHorario(data.horario_envio);
+        if (data?.horario_envio && HORARIOS.includes(data.horario_envio)) setHorario(data.horario_envio);
         if (data?.canal_entrega) setCanal(data.canal_entrega);
         if (data?.whatsapp) setWhatsapp(data.whatsapp);
         if (data?.telegram_username) setTelegram(data.telegram_username);
