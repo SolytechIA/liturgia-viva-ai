@@ -63,9 +63,27 @@ const AdminUsuarios = () => {
       return;
     }
     setSavingId(p.id);
-    const update: { plano?: string; status_assinatura?: string } = {};
+    const update: {
+      plano?: string;
+      status_assinatura?: string;
+      data_proxima_cobranca?: string | null;
+    } = {};
     if (e.plano !== undefined) update.plano = e.plano;
     if (e.status_assinatura !== undefined) update.status_assinatura = e.status_assinatura;
+
+    const planoFinal = e.plano ?? p.plano;
+    const statusFinal = e.status_assinatura ?? p.status_assinatura;
+
+    if (
+      statusFinal === "ativo" &&
+      (planoFinal === "devoto" || planoFinal === "peregrino")
+    ) {
+      const proxima = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      update.data_proxima_cobranca = proxima.toISOString().split("T")[0];
+    } else if (statusFinal === "cancelado" || statusFinal === "inadimplente") {
+      update.data_proxima_cobranca = null;
+    }
+
     const { error: upErr } = await supabase
       .from("profiles")
       .update(update)

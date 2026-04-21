@@ -1,11 +1,13 @@
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate, Navigate, Link } from "react-router-dom";
-import { Home, Cross, BookOpen, Star, LogOut } from "lucide-react";
+import { Home, Cross, BookOpen, Star, LogOut, Shield } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
-const items = [
+const baseItems = [
   { to: "/dashboard", label: "Início", icon: Home, end: true },
   { to: "/dashboard/leitura", label: "Leitura do Dia", icon: Cross },
   { to: "/dashboard/arquivo", label: "Arquivo", icon: BookOpen },
@@ -15,6 +17,21 @@ const items = [
 export const PrivateLayout = () => {
   const navigate = useNavigate();
   const { user, loading, signOut } = useAuth();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => setIsAdmin(!!data?.is_admin));
+  }, [user]);
+
+  const items = isAdmin
+    ? [...baseItems, { to: "/admin", label: "Painel Admin", icon: Shield, end: false }]
+    : baseItems;
 
   if (loading) {
     return (
@@ -86,7 +103,7 @@ export const PrivateLayout = () => {
         </header>
 
         {/* Mobile bottom nav */}
-        <nav className="fixed bottom-0 left-0 right-0 z-40 grid grid-cols-4 border-t border-sidebar-border bg-sidebar text-sidebar-foreground md:hidden">
+        <nav className={cn("fixed bottom-0 left-0 right-0 z-40 grid border-t border-sidebar-border bg-sidebar text-sidebar-foreground md:hidden", isAdmin ? "grid-cols-5" : "grid-cols-4")}>
           {items.map((item) => (
             <NavLink
               key={item.to}
