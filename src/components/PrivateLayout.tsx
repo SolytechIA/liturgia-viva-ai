@@ -97,13 +97,15 @@ export const PrivateLayout = () => {
           <Link to="/" aria-label="Liturgia Viva — Início">
             <Logo variant="light" />
           </Link>
-          <button onClick={logout} className="rounded-md p-2 text-sidebar-foreground/80 hover:text-gold" aria-label="Sair">
-            <LogOut className="h-5 w-5" />
-          </button>
         </header>
 
         {/* Mobile bottom nav */}
-        <nav className={cn("fixed bottom-0 left-0 right-0 z-40 grid border-t border-sidebar-border bg-sidebar text-sidebar-foreground md:hidden", isAdmin ? "grid-cols-5" : "grid-cols-4")}>
+        <nav
+          className={cn(
+            "fixed bottom-0 left-0 right-0 z-40 grid border-t border-sidebar-border bg-sidebar text-sidebar-foreground md:hidden",
+            isAdmin ? "grid-cols-6" : "grid-cols-5"
+          )}
+        >
           {items.map((item) => (
             <NavLink
               key={item.to}
@@ -120,6 +122,14 @@ export const PrivateLayout = () => {
               {item.label}
             </NavLink>
           ))}
+          <button
+            onClick={logout}
+            className="flex flex-col items-center justify-center border-l border-sidebar-border/50 py-2 text-[10px] font-medium text-sidebar-foreground/70 hover:text-sidebar-primary"
+            aria-label="Sair"
+          >
+            <LogOut className="mb-1 h-5 w-5" />
+            Sair
+          </button>
         </nav>
 
         <main className="flex-1 pb-20 md:pb-0">
