@@ -28,14 +28,9 @@ const PLANOS: Record<Plano, { nome: string; preco: string; precoLabel: string }>
 
 const HORARIOS = ["6h", "8h", "10h", "12h", "14h", "16h", "18h", "20h", "22h"];
 
-const formatarData = (iso: string | null) => {
-  if (!iso) return null;
-  return new Date(iso).toLocaleDateString("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-};
+import { formatDateBR } from "@/lib/dateUtils";
+
+const formatarData = (iso: string | null) => (iso ? formatDateBR(iso) : null);
 
 const MeuPlano = () => {
   const { user } = useAuth();
