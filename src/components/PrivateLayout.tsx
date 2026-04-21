@@ -78,17 +78,17 @@ export const PrivateLayout = () => {
               {item.label}
             </NavLink>
           ))}
-        </nav>
 
-        <div className="border-t border-sidebar-border p-3">
-          <button
-            onClick={logout}
-            className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-foreground/80 transition-smooth hover:bg-sidebar-accent/60 hover:text-sidebar-primary"
-          >
-            <LogOut className="h-5 w-5" />
-            Sair
-          </button>
-        </div>
+          <div className="mt-4 border-t border-sidebar-border/50 pt-4">
+            <button
+              onClick={logout}
+              className="flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-sidebar-foreground/80 transition-smooth hover:bg-sidebar-accent/60 hover:text-sidebar-primary"
+            >
+              <LogOut className="h-5 w-5" />
+              Sair
+            </button>
+          </div>
+        </nav>
       </aside>
 
       {/* Mobile top bar */}
