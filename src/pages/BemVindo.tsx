@@ -110,23 +110,17 @@ const BemVindo = () => {
             </div>
 
             <div>
-              <Label className="mb-3 block">Horário preferido</Label>
-              <RadioGroup value={horario} onValueChange={setHorario} className="grid grid-cols-2 gap-3">
-                <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 hover:border-gold">
-                  <RadioGroupItem value="manha" id="h-manha" />
-                  <div>
-                    <div className="font-medium">Manhã</div>
-                    <div className="text-xs text-muted-foreground">6h às 8h</div>
-                  </div>
-                </label>
-                <label className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 hover:border-gold">
-                  <RadioGroupItem value="tarde" id="h-tarde" />
-                  <div>
-                    <div className="font-medium">Tarde</div>
-                    <div className="text-xs text-muted-foreground">12h</div>
-                  </div>
-                </label>
-              </RadioGroup>
+              <Label htmlFor="horario" className="mb-3 block">Horário preferido</Label>
+              <Select value={horario} onValueChange={setHorario}>
+                <SelectTrigger id="horario" className="mt-1.5">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {HORARIOS.map((h) => (
+                    <SelectItem key={h} value={h}>{h}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div>
@@ -144,6 +138,11 @@ const BemVindo = () => {
                   </label>
                 ))}
               </RadioGroup>
+              {(canal === "whatsapp" || canal === "telegram" || canal === "todos") && (
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Disponível conforme seu plano. Configure em Meu Plano após o cadastro.
+                </p>
+              )}
             </div>
 
             <div>
