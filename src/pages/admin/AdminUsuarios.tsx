@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -22,12 +23,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDateBR } from "@/lib/dateUtils";
+import { cn } from "@/lib/utils";
 
 const PLANOS = ["gratuito", "devoto", "peregrino"] as const;
 const STATUSES = ["ativo", "trial", "cancelado", "inadimplente"] as const;
 const PAGE_SIZE = 10;
 
 type Edits = Record<string, { plano?: string; status_assinatura?: string }>;
+type SortKey = "nome" | "email" | "plano" | "status_assinatura" | "data_cadastro" | "data_proxima_cobranca";
+type SortDir = "asc" | "desc";
 
 const formatDate = (s: string | null) => formatDateBR(s);
 
@@ -37,18 +41,52 @@ const AdminUsuarios = () => {
   const [page, setPage] = useState(1);
   const [edits, setEdits] = useState<Edits>({});
   const [savingId, setSavingId] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<SortKey>("data_cadastro");
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+    setPage(1);
+  };
 
   const filtered = useMemo(() => {
     if (!profiles) return [];
     const q = search.trim().toLowerCase();
-    if (!q) return profiles;
-    return profiles.filter((p) => {
-      return (
-        (p.nome ?? "").toLowerCase().includes(q) ||
-        (p.email ?? "").toLowerCase().includes(q)
-      );
+    const base = !q
+      ? [...profiles]
+      : profiles.filter((p) => {
+          const haystack = [
+            p.nome,
+            p.email,
+            p.plano,
+            p.status_assinatura,
+            formatDateBR(p.data_cadastro),
+            formatDateBR(p.data_proxima_cobranca),
+          ]
+            .map((v) => (v ?? "").toString().toLowerCase())
+            .join(" | ");
+          return haystack.includes(q);
+        });
+
+    const dir = sortDir === "asc" ? 1 : -1;
+    base.sort((a, b) => {
+      const av = (a as any)[sortKey];
+      const bv = (b as any)[sortKey];
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      if (sortKey === "data_cadastro" || sortKey === "data_proxima_cobranca") {
+        return (new Date(av).getTime() - new Date(bv).getTime()) * dir;
+      }
+      return String(av).localeCompare(String(bv), "pt-BR") * dir;
     });
-  }, [profiles, search]);
+    return base;
+  }, [profiles, search, sortKey, sortDir]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -116,6 +154,34 @@ const AdminUsuarios = () => {
     );
   };
 
+  const SortableHead = ({
+    label,
+    sortBy,
+    className,
+  }: {
+    label: string;
+    sortBy: SortKey;
+    className?: string;
+  }) => {
+    const active = sortKey === sortBy;
+    const Icon = !active ? ArrowUpDown : sortDir === "asc" ? ArrowUp : ArrowDown;
+    return (
+      <TableHead className={className}>
+        <button
+          type="button"
+          onClick={() => toggleSort(sortBy)}
+          className={cn(
+            "inline-flex items-center gap-1 transition-colors hover:text-foreground",
+            active && "text-foreground font-semibold"
+          )}
+        >
+          {label}
+          <Icon className={cn("h-3.5 w-3.5", !active && "opacity-50")} />
+        </button>
+      </TableHead>
+    );
+  };
+
   return (
     <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
       <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -125,9 +191,9 @@ const AdminUsuarios = () => {
             {profiles ? `${profiles.length} usuários cadastrados` : "Carregando..."}
           </p>
         </div>
-        <div className="w-full sm:w-72">
+        <div className="w-full sm:w-96">
           <Input
-            placeholder="Buscar por nome ou e-mail..."
+            placeholder="Buscar por nome, e-mail, plano ou status..."
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -147,12 +213,12 @@ const AdminUsuarios = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Nome</TableHead>
-              <TableHead>E-mail</TableHead>
-              <TableHead>Plano</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Cadastro</TableHead>
-              <TableHead>Próx. Cobrança</TableHead>
+              <SortableHead label="Nome" sortBy="nome" />
+              <SortableHead label="E-mail" sortBy="email" />
+              <SortableHead label="Plano" sortBy="plano" />
+              <SortableHead label="Status" sortBy="status_assinatura" />
+              <SortableHead label="Cadastro" sortBy="data_cadastro" />
+              <SortableHead label="Próx. Cobrança" sortBy="data_proxima_cobranca" />
               <TableHead className="text-right">Ações</TableHead>
             </TableRow>
           </TableHeader>
